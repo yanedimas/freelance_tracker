@@ -94,7 +94,10 @@ class _AddScreenState extends State<AddScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text('Сохранить', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                child: Text(
+                  'Сохранить',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],
@@ -141,6 +144,12 @@ class _AddScreenState extends State<AddScreen> {
         _clientController.text.isNotEmpty &&
         _amountController.text.isNotEmpty) {
       final amount = double.tryParse(_amountController.text) ?? 0.0;
+      if (amount <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Сумма должна быть больше 0')),
+        );
+        return;
+      }
       context.read<OrderBloc>().add(AddOrder(
           title: _titleController.text,
           client: _clientController.text,

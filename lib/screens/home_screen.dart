@@ -85,6 +85,13 @@ class HomeScreen extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     final goal = double.tryParse(controller.text) ?? 0;
+                    if (goal < 0) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text('Цель не может быть отрицательной')),
+                      );
+                      return;
+                    }
                     context.read<OrderBloc>().add(UpdateGoal(goal: goal));
                     Navigator.pop(dialogContext);
                   },

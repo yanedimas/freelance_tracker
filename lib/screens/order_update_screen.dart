@@ -167,6 +167,12 @@ class _OrderUpdateScreenState extends State<OrderUpdateScreen> {
     final client =
         _clientController.text.isNotEmpty ? _clientController.text : null;
     final amount = double.tryParse(_amountController.text);
+    if (amount! <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Сумма должна быть больше 0')),
+      );
+      return;
+    }
 
     context.read<OrderBloc>().add(UpdateOrder(
           id: widget.orderId,
