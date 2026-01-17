@@ -111,33 +111,12 @@ class OrderDetailScreen extends StatelessWidget {
               SizedBox(
                 height: 24,
               ),
-              _buildActionButton(
-                  onPressed: () {
-                    context.read<OrderBloc>().add(StatusChange(id: orderId));
-                  },
-                  icon: order.isCompleted ? Icons.undo : Icons.check,
-                  label: order.isCompleted
-                      ? 'Вернуть в работу'
-                      : 'Отметить выполненным',
-                  color: AppTheme.accent),
-              SizedBox(
-                height: 12,
-              ),
+
               _buildActionButton(
                   onPressed: () => context.go('/update/${order.id}'),
                   icon: Icons.edit,
                   label: 'Редактировать',
                   color: AppTheme.textSecondary),
-              SizedBox(
-                height: 12,
-              ),
-              _buildActionButton(
-                  onPressed: () {
-                    _showDeleteDialog(context, orderId);
-                  },
-                  icon: Icons.delete,
-                  label: 'Удалить',
-                  color: Colors.red),
             ],
           ),
         ),
@@ -196,30 +175,4 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 
-  void _showDeleteDialog(BuildContext context, String orderId) {
-    showDialog(
-        context: context,
-        builder: (dialogContext) {
-          return AlertDialog(
-            title: Text('Удалить заказ'),
-            content: Text('Это действие отменить нельзя'),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(dialogContext),
-                  child: Text('Отмена')),
-              TextButton(
-                onPressed: () {
-                  context.read<OrderBloc>().add(DeleteOrder(id: orderId));
-                  Navigator.pop(dialogContext);
-                  context.go('/');
-                },
-                child: Text(
-                  'Удалить',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
-          );
-        });
-  }
 }
